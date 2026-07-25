@@ -478,8 +478,14 @@ function resetGame(){
     gameOver = false;
 
     aiStep = 0;
-   
+
+    stopFireworks();
+
     winPopup.style.display = "none";
+
+    exitPopup.style.display = "none";
+
+    winningLine.style.display = "none";
 
     winningLine.style.width = "0px";
 
@@ -511,5 +517,157 @@ function drawWinningLine(combo){
     winningLine.style.transition = ".5s";
 
     /* Position animation Part 6-la complete pannuvom */
+
+}
+
+/* ==========================================
+   PART 6
+   WINNING LINE + SIMPLE FIREWORKS
+========================================== */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let animationId = null;
+
+function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+
+/* ==========================================
+   WINNING LINE
+========================================== */
+
+function drawWinningLine(combo){
+
+    const boardRect = document.getElementById("board").getBoundingClientRect();
+
+    const centers = [];
+
+    cells.forEach(cell=>{
+
+        const r = cell.getBoundingClientRect();
+
+        centers.push({
+
+            x:r.left+r.width/2,
+            y:r.top+r.height/2
+
+        });
+
+    });
+
+    const start = centers[combo[0]];
+    const end = centers[combo[2]];
+
+    const length = Math.hypot(
+        end.x-start.x,
+        end.y-start.y
+    );
+
+    const angle = Math.atan2(
+        end.y-start.y,
+        end.x-start.x
+    )*180/Math.PI;
+
+    winningLine.style.display="block";
+
+    winningLine.style.left=start.x+"px";
+    winningLine.style.top=start.y+"px";
+
+    winningLine.style.transformOrigin="left center";
+
+    winningLine.style.transform=`rotate(${angle}deg)`;
+
+    winningLine.style.width="0px";
+
+    requestAnimationFrame(()=>{
+
+        winningLine.style.width=length+"px";
+
+    });
+
+}
+
+
+/* ==========================================
+   FIREWORKS
+========================================== */
+
+function startFireworks(){
+
+    canvas.style.display="block";
+
+    particles=[];
+
+    for(let i=0;i<180;i++){
+
+        particles.push({
+
+            x:canvas.width/2,
+            y:canvas.height/2,
+
+            dx:(Math.random()-0.5)*12,
+            dy:(Math.random()-0.5)*12,
+
+            r:Math.random()*4+2,
+
+            life:100
+
+        });
+
+    }
+
+    animateFireworks();
+
+}
+
+function animateFireworks(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p=>{
+
+        ctx.beginPath();
+
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+
+        ctx.fillStyle=
+        `hsla(${Math.random()*360},100%,70%,${p.life/100})`;
+
+        ctx.fill();
+
+        p.x+=p.dx;
+        p.y+=p.dy;
+
+        p.dy+=0.05;
+
+        p.life--;
+
+    });
+
+    particles=particles.filter(p=>p.life>0);
+
+    if(particles.length){
+
+        animationId=requestAnimationFrame(animateFireworks);
+
+    }
+
+}
+
+function stopFireworks(){
+
+    cancelAnimationFrame(animationId);
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    canvas.style.display="none";
 
 }
