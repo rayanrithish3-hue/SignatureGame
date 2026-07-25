@@ -329,31 +329,187 @@ function drawO(cell){
    AI MOVE
 ========================================== */
 
+const aiSequence = [4, 2, 6, 8];
+
+let aiStep = 0;
+
 function aiMove(){
 
     if(gameOver) return;
 
-    const empty = [];
+    while(aiStep < aiSequence.length){
 
-    board.forEach((value,index)=>{
+        const move = aiSequence[aiStep];
 
-        if(value===""){
+        aiStep++;
 
-            empty.push(index);
+        if(board[move] === ""){
+
+            board[move] = "O";
+
+            drawO(cells[move]);
+
+            checkWinner();
+
+            return;
 
         }
 
+    }
+
+}
+
+/* ==========================================
+   CHECK WINNER
+========================================== */
+
+function checkWinner(){
+
+    for(const combo of winningCombinations){
+
+        const a = combo[0];
+        const b = combo[1];
+        const c = combo[2];
+
+        if(
+            board[a] !== "" &&
+            board[a] === board[b] &&
+            board[b] === board[c]
+        ){
+
+            gameOver = true;
+
+            drawWinningLine(combo);
+
+            setTimeout(()=>{
+
+                showWinPopup(board[a]);
+
+            },800);
+
+            return;
+
+        }
+
+    }
+
+    if(!board.includes("")){
+
+        gameOver = true;
+
+        setTimeout(()=>{
+
+            resetGame();
+
+        },1000);
+
+    }
+
+}
+
+
+/* ==========================================
+   WIN POPUP
+========================================== */
+
+function showWinPopup(playerWon){
+
+    winSound.currentTime = 0;
+    winSound.play();
+
+    fireworkSound.currentTime = 0;
+    fireworkSound.play();
+
+    startFireworks();
+
+    winPopup.style.display = "flex";
+
+}
+
+
+/* ==========================================
+   PLAY AGAIN
+========================================== */
+
+playAgainBtn.addEventListener("click",()=>{
+
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    stopFireworks();
+
+    resetGame();
+
+});
+
+
+/* ==========================================
+   EXIT
+========================================== */
+
+exitBtn.addEventListener("click",()=>{
+
+    clickSound.currentTime = 0;
+    clickSound.play();
+
+    stopFireworks();
+
+    winPopup.style.display = "none";
+
+    exitPopup.style.display = "flex";
+
+});
+
+
+/* ==========================================
+   RESET GAME
+========================================== */
+
+function resetGame(){
+
+    board = [
+
+        "","","",
+        "","","",
+        "","",""
+
+    ];
+
+    gameOver = false;
+
+    aiStep = 0;
+   
+    winPopup.style.display = "none";
+
+    winningLine.style.width = "0px";
+
+    cells.forEach((cell)=>{
+
+        cell.innerHTML = "";
+
     });
 
-    if(empty.length===0) return;
+}
 
-    const randomIndex =
-        empty[Math.floor(Math.random()*empty.length)];
+/* ==========================================
+   WINNING LINE
+========================================== */
 
-    board[randomIndex]="O";
+function drawWinningLine(combo){
 
-    drawO(cells[randomIndex]);
+    winningLine.style.position = "absolute";
 
-    checkWinner();
+    winningLine.style.height = "6px";
+
+    winningLine.style.background = "#ff66ff";
+
+    winningLine.style.boxShadow =
+        "0 0 15px #ff66ff";
+
+    winningLine.style.borderRadius = "20px";
+
+    winningLine.style.transition = ".5s";
+
+    /* Position animation Part 6-la complete pannuvom */
 
 }
