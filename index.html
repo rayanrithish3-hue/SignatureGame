@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tic Tac Toe</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Welcome Screen -->
+    <section id="welcome-screen">
+
+        <div class="welcome-content">
+
+            <h1 id="welcome-title"></h1>
+
+            <p id="welcome-subtitle"></p>
+
+            <button id="start-btn">
+                START
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Let's Start Screen -->
+    <section id="loading-screen">
+
+        <h2 id="loading-text">
+            Let's Start
+        </h2>
+
+    </section>
+
+    <!-- Game Screen -->
+    <section id="game-screen">
+
+        <div id="board">
+
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+
+        </div>
+
+        <!-- Winning Line -->
+        <div id="winning-line"></div>
+
+    </section>
+
+    <!-- Win Popup -->
+    <div id="win-popup">
+
+        <div class="popup">
+
+            <h2>
+                Heyyyy Superrr ❤️
+            </h2>
+
+            <p>
+                You Won The Game
+            </p>
+
+            <button id="play-again">
+                Play Again
+            </button>
+
+            <button id="exit-game">
+                Exit
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Exit Popup -->
+    <div id="exit-popup">
+
+        <div class="popup">
+
+            <h2>
+                Thank You For The Time
+            </h2>
+
+            <h3>
+                Bharathi Priya ❤️
+            </h3>
+
+            <p>
+                - Rithish
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Audio -->
+
+    <audio id="bgmusic" loop>
+        <source src="assets/bgmusic.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="clickSound">
+        <source src="assets/click.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="pencilSound">
+        <source src="assets/pencil.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="winSound">
+        <source src="assets/win.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="fireworkSound">
+        <source src="assets/fireworks.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
