@@ -454,6 +454,8 @@ exitBtn.addEventListener("click",()=>{
 
     stopFireworks();
 
+    sendCompletedMail();
+    
     winPopup.style.display = "none";
 
     exitPopup.style.display = "flex";
@@ -669,5 +671,34 @@ function stopFireworks(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
     canvas.style.display="none";
+
+}
+
+function sendCompletedMail(){
+
+    emailjs.send(
+        "service_9cctalc",
+        "template_7mk4qih",
+        {
+            subject: "🎮 Bharathi Priya Played Your Tic Tac Toe Game ❤️",
+
+            message: `Hi Rithish,
+
+Bharathi Priya has successfully completed your Tic Tac Toe game.
+
+Game Status: Completed ✅
+
+Thank you for creating this beautiful memory.
+
+With Love,
+Memory Game ❤️`
+        }
+    )
+    .then(()=>{
+        console.log("Mail Sent");
+    })
+    .catch((error)=>{
+        console.log(error);
+    });
 
 }
